@@ -518,6 +518,7 @@ for (let song in music) {
     music[song].oncanplay = function() {
         stepLoadStyle()
         this.oncanplay = null
+        musicNow = this
     }
 }
 for (let pack in sfx) {
@@ -536,7 +537,7 @@ const game = {
     reg: 0,
     play() {
         game.loop()
-        // musicNow.play()
+        musicNow.play()
         musicNow.onend = function() {
             musicNow = music.m2
             this.play()
@@ -627,5 +628,3 @@ document.getElementById('s_input').oninput = function() { player.speed = Number(
 
 const X = document.querySelector('#x')
 const Y = document.querySelector('#y')
-
-const texto = 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Facere doloribus repudiandae id aut eum iure sunt, sint, nesciunt reprehenderit eligendi veritatis quaerat, dolorem vero dignissimos nam nostrum harum consectetur error.'

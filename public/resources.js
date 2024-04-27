@@ -100,9 +100,9 @@ const textures = Object.freeze({
 })
 // #region Musica
 const music = Object.freeze({
-    m0: new Audio(PATH_MUSIC + 'bit-beats-3-168873.mp3'),
-    m1: new Audio(PATH_MUSIC + 'stranger-things-124008.mp3'),
-    m2: new Audio(PATH_MUSIC + 'synthwave-marvel-francis-200494.mp3'),
+    // m0: new Audio(PATH_MUSIC + 'bit-beats-3-168873.mp3'),
+    // m1: new Audio(PATH_MUSIC + 'stranger-things-124008.mp3'),
+    // m2: new Audio(PATH_MUSIC + 'synthwave-marvel-francis-200494.mp3'),
     m3: new Audio(PATH_MUSIC + 'uplifting-pad-texture-113842.mp3'),
 })
 // #region Efectos de sonido

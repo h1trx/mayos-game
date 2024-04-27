@@ -2,7 +2,7 @@ import express from 'express'
 import { Server } from 'socket.io'
 import { createServer } from 'node:http'
 
-const port = 3000
+const port = process.env.PORT || 3000
 
 const app = express()
 const server = createServer(app)
