@@ -1,3 +1,4 @@
+import cors from 'cors'
 import express from 'express'
 import { Server } from 'socket.io'
 import { createServer } from 'node:http'
@@ -23,6 +24,7 @@ app.get('/', (req, res) => {
 })
 app.get('/getPort', (req, res) => res.send(port))
 
+app.use(cors())
 app.use(express.static('public'))
 
 server.listen(port, () => console.log(`server running on port ${port}`))
