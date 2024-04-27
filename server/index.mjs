@@ -21,9 +21,9 @@ io.on('connection', socket => {
 })
 
 app.get('/', (req, res) => {
-    res.sendFile('C:/Users/petro/Documents/game/public/index.html')
+    res.sendFile('public/index.html')
 })
 
-app.use(express.static('C:/Users/petro/Documents/game/public'))
+app.use(express.static('public'))
 
 server.listen(port, () => console.log(`server running on port ${port}`))
