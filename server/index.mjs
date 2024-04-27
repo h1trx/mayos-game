@@ -9,8 +9,6 @@ const server = createServer(app)
 const io = new Server(server)
 
 io.on('connection', socket => {
-    console.log('A user has connected!')
-
     socket.on('disconnect', () => {
         io.emit('player-disconnect', socket.id)
     })
@@ -21,7 +19,7 @@ io.on('connection', socket => {
 })
 
 app.get('/', (req, res) => {
-    res.sendFile('public/index.html')
+    res.sendFile(process.cwd() + '/public/index.html')
 })
 
 app.use(express.static('public'))
