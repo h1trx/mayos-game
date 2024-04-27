@@ -114,7 +114,8 @@ const sfx = Object.freeze({
     },
     objects: {
         coin: new Audio(PATH_S_OBJECTS + 'coin.mp3'),
-        guitar: new Audio(PATH_S_OBJECTS + 'guitar.mp3')
+        guitar: new Audio(PATH_S_OBJECTS + 'guitar.mp3'),
+        write: new Audio(PATH_S_OBJECTS + 'write.mp3'),
     }
 })
 // #region Sprites 
@@ -125,7 +126,7 @@ const sprites = {
 }
 
 //Extras
-function newLoading(steps, callBack) {
+function newLoading(steps = 1, callBack) {
     let counter = 0
     let percente = 0
     let step = 1 / steps
@@ -172,6 +173,7 @@ function write(text = '', velocity = 50) {
             const letter = text.charAt(index)
             messageText.textContent += letter; index++
             time = wait.includes(letter) ? velocity * 10 : velocity 
+            if (letter != ' ') playSfx(sfx.objects.write)
             timeOutWrite = setTimeout(writing, time)
         } else {
             const styles = getComputedStyle(message)
@@ -187,23 +189,20 @@ function write(text = '', velocity = 50) {
     }
     writing()
 }
-function randomNum(n) {
+function randomNum(n = 1) {
     return Math.floor(Math.random() * n)
 } 
 function randomColor() {
     let color = 'rgb('
     for (let i = 0; i < 3; i++) color += randomNum(255) + ' '
+    return color
 }
 function playSfx(audio, time) {
     audio.currentTime = time || 0
     audio.play()
 }
 
-moveControl.ontouchend = function() {
-    this.value = 0
-    keys['a'] = false
-    keys['d'] = false
-}
+
 moveControl.onmouseup = function() {
     this.value = 0
     keys['a'] = false
@@ -212,7 +211,9 @@ moveControl.onmouseup = function() {
 moveControl.oninput = function() {
     if (this.value < -0.3) {
         keys['a'] = true
+        keys['d'] = false
     } else if (this.value > 0.3) {
+        keys['a'] = false
         keys['d'] = true
     } else {
         keys['a'] = false

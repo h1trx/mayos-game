@@ -92,7 +92,7 @@ img {
     translate: -50%;
 }
 #loading::before {
-    content: 'Loading.';
+    content: 'Loading';
     font-weight: bolder;
     position: inherit;
     bottom: 20px;
@@ -112,6 +112,9 @@ img {
 }
 
 @keyframes loadDots {
+    0% {
+        content: 'Loading.';
+    }
     40% {
         content: 'Loading..';
     }
@@ -125,12 +128,12 @@ img {
 
 #message {
     font-size: 1.6em;
-    background: black;
+    background: #000;
     width: 100%;
-    max-width: 700px;
+    max-width: calc(100vh - 40px);
     text-shadow: none;
     padding: 0;
-    border: 2px solid white;
+    border: 2px solid #fff;
     text-align: center;
     will-change: width, height;
     overflow: hidden;
@@ -167,7 +170,7 @@ img {
 #controls input {
     appearance: none;
     background: #0005;
-    width: 100px;
+    width: 80px;
     height: 50px;
     margin-left: 50px;
     margin-bottom: 20px;
@@ -182,4 +185,9 @@ img {
     height: 50px;
     border: 2px solid black;
     border-radius: 50%;
+    box-shadow: inset 0 -3px 3px #1790BB;
+    opacity: 0.5;
+}
+#controls input:active::-webkit-slider-thumb {
+    opacity: 1;
 }

@@ -464,10 +464,21 @@ function createObject(x, y, w, h, name) {
 // #region Inicialización
 window.onresize = responsive
 
-uhd.ontouchstart = e => { if (e.target != uhd) return; keys['w'] = true }
-uhd.ontouchend = e => { if (e.target != uhd) return; keys['w'] = false }
+uhd.ontouchstart = e => { 
+    if (e.target === uhd) keys['w'] = true 
+}
+uhd.ontouchend = e => { 
+    let i = e.target
+    if (i === uhd) {
+        keys['w'] = false
+    } else if (i === moveControl) {
+        moveControl.value = 0
+        keys['a'] = false
+        keys['d'] = false
+    }
+}
 
-const load = newLoading(38, () => {
+const load = newLoading(39, () => {
     createPlayer(3)
 
     sprites.objects.coin = new Sprite('default', textures.objects.coin, 8, true, 4, 1)
