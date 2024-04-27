@@ -1,0 +1,15 @@
+{
+  "name": "game",
+  "version": "1.0.0",
+  "description": "A game for my friends",
+  "main": "index.mjs",
+  "scripts": {
+    "start": "node server/index.mjs"
+  },
+  "author": "AnderDeveloper",
+  "license": "ISC",
+  "dependencies": {
+    "express": "4.19.2",
+    "socket.io": "4.7.5"
+  }
+}

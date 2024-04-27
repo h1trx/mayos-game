@@ -1,0 +1,151 @@
+@font-face {
+    font-family: pixeles;
+    src: url('./assets/Pixelify_Sans/static/PixelifySans-SemiBold.ttf');
+}
+
+* {
+    font-family: pixeles;
+    margin: 0;
+    box-sizing: border-box;
+    user-select: none;
+}
+
+body {
+    background: #000;
+    width: 100vw;
+    /* height: 100vh; */
+    font-family: sans-serif;
+    display: grid;
+    place-content: center;
+    overflow: hidden;
+}
+
+canvas {
+    background: #111;
+    height: 100vh;
+    width: 100vw;
+    image-rendering: pixelated;
+}
+
+img {
+    image-rendering: pixelated;
+}
+
+#uhd {
+    color: #fff;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+#uhd > * {
+    text-shadow: 0 0 5px #0009;
+    font-size: 1.2em;
+    padding: 10px;
+    border-radius: 2vh;
+}
+
+#uhd div {
+    position: absolute;
+    right: 0;
+}
+#uhd div input[type="range"] {
+    color-scheme: dark;
+    outline: none;
+}
+#uhd div input[type="range"]::before {
+    content: '-';
+    margin-top: -2px;
+    position: absolute;
+    left: 0;
+}
+#uhd div input[type="range"]::after {
+    content: '+';
+    margin-top: -2px;
+    position: absolute;
+    right: 1px;
+}
+
+#loading {
+    background: #fff3;
+    width: calc(100% - 40px);
+    max-width: 700px;
+    height: 10px;
+    padding: 0;
+    border-radius: 0px;
+    position: absolute;
+    bottom: 100px;
+    left: 50%;
+    translate: -50%;
+}
+#loading::before {
+    content: 'Loading.';
+    font-weight: bolder;
+    position: inherit;
+    bottom: 20px;
+    left: 0;
+    animation: loadDots infinite 1.2s ease;
+}
+#loading span {
+    background: #fcfaff;
+    width: 100%;
+    height: 100%;
+    position: inherit;
+    top: 0;
+    left: 0;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform .1s ease;
+}
+
+@keyframes loadDots {
+    40% {
+        content: 'Loading..';
+    }
+    90% {
+        content: 'Loading...';
+    }
+    100% {
+        content: 'Loading...';
+    }
+}
+
+#message {
+    font-size: 1.6em;
+    background: black;
+    width: 100%;
+    max-width: 700px;
+    text-shadow: none;
+    padding: 0;
+    border: 2px solid white;
+    text-align: center;
+    will-change: width, height;
+    overflow: hidden;
+    position: absolute;
+    visibility: hidden;
+    left: 50%;
+    top: 50%;
+    translate: -50% -50%;
+    transition: 150ms ease-in-out, padding 100ms ease;
+}
+#msg-text {
+    width: 100%;
+    opacity: 0;
+    transition: opacity 70ms ease-in-out;
+}
+
+
+#game-state {
+    position: fixed;
+    left: 50%;
+    translate: -50%;
+}
+
+#fps-counter::before {content: 'FPS :  '}
+
+#x::before {content: 'X :  '}
+
+#y::before {content: 'Y :  '}
