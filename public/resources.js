@@ -1,6 +1,7 @@
+const moveControl = document.querySelector('#move')
 const message = document.querySelector('#message')
 const messageText = message.querySelector('p')
-let timeOutText = undefined
+let timeOutWrite = undefined
 
 // #region Paths
 const PATH_T_BGS = 'assets/textures/backgrounds/'
@@ -91,10 +92,10 @@ const textures = Object.freeze({
         guitar: textureObject('guitar.png')
     },
     blocks: {
-        solid1x1: textureBlock('b_1x1.png'),
-        solid1x2: textureBlock('b_1x2.png'),
-        solid3x2: textureBlock('b_3x2.png'),
-        solid4x3: textureBlock('b_4x3.png'),
+        block1x1: textureBlock('b_1x1.png'),
+        block1x2: textureBlock('b_1x2.png'),
+        block3x2: textureBlock('b_3x2.png'),
+        block4x3: textureBlock('b_4x3.png'),
         platform4x3: textureBlock('p_4x3.png')
     }
 })
@@ -134,8 +135,7 @@ function newLoading(steps, callBack) {
         if (increment) {
             counter++
             percente += step
-            percente = Number(percente.toFixed(2))
-            if (percente >= 1) {
+            if (percente.toFixed(2) >= 1) {
                 percente = 1
                 if (!complete) {
                     callBack()
@@ -156,7 +156,7 @@ function stepLoadStyle() {
 function write(text = '', velocity = 50) {
     let index = 0
     let time = velocity
-    if (timeOutText) clearTimeout(timeOutText)
+    if (timeOutWrite) clearTimeout(timeOutWrite)
 
     const wait = [',', '.', '!', '?']
 
@@ -172,12 +172,12 @@ function write(text = '', velocity = 50) {
             const letter = text.charAt(index)
             messageText.textContent += letter; index++
             time = wait.includes(letter) ? velocity * 10 : velocity 
-            timeOutText = setTimeout(writing, time)
+            timeOutWrite = setTimeout(writing, time)
         } else {
             const styles = getComputedStyle(message)
             message.style.width = styles.width
             message.style.height = styles.height
-            setTimeout(() => {
+            timeOutWrite = setTimeout(() => {
                 message.style.width = 0
                 message.style.padding = 0
                 messageText.style.opacity = 0
@@ -198,4 +198,21 @@ function playSfx(audio, time) {
     audio.currentTime = time || 0
     audio.play()
 }
-const p = document.querySelector('#message p')
+
+moveControl.ontouchend = function() {
+    this.value = 0
+    keys['a'] = false
+    keys['d'] = false
+}
+moveControl.oninput = function() {
+    console.log(this.value)
+    if (this.value < -0.3) {
+        keys['a'] = true
+    } else if (this.value > 0.3) {
+        keys['d'] = true
+    } else {
+        keys['a'] = false
+        keys['d'] = false
+    }
+
+}

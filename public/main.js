@@ -464,15 +464,16 @@ function createObject(x, y, w, h, name) {
 // #region Inicialización
 window.onresize = responsive
 
-const load = newLoading(40, () => {
+uhd.ontouchstart = e => { if (e.target != uhd) return; keys['w'] = true }
+uhd.ontouchend = e => { if (e.target != uhd) return; keys['w'] = false }
+
+const load = newLoading(38, () => {
     createPlayer(3)
 
     sprites.objects.coin = new Sprite('default', textures.objects.coin, 8, true, 4, 1)
     coins.push(new Coin(245, canvas.height - 60))
     coins.push(new Coin(270, canvas.height - 60))
     createObject(450, 155 - 20, 11, 24, 'guitar')
-
-    musicNow = music.m0
 
     setTimeout(() => {
         uhd.removeChild(uhd.querySelector('aside'))
@@ -490,6 +491,15 @@ const load = newLoading(40, () => {
 
         console.log(`Se cargaron ${load(false)} recursos.`)
 
+        if (navigator.onLine) {
+            socket = io()
+            socket.on('connect', () => write("¡Bienvenido a Mayo's Game!"))
+            socket.on('connect_error', () => { 
+                socket.io.disconnect() 
+                write("Falla al conectarse los servidores")
+            })
+        } else write("Estás offline")
+
         game.play()
     }, 100)
 })
@@ -498,34 +508,46 @@ for (let pack in textures) {
     switch (pack) {
         case 'backgrounds':
             for (let bg in textures[pack]) {
-                textures[pack][bg].forEach(layer => layer.onload = function() {
-                    stepLoadStyle()
-                    this.onload = null
+                textures[pack][bg].forEach(img => {
+                    if (!img.complete) {
+                        img.onload = () => { stepLoadStyle(); img.onload = null }
+                    } else stepLoadStyle()
                 })
             }
         break
         default: 
             for (let texture in textures[pack]) {
-                textures[pack][texture].onload = function() {
-                    stepLoadStyle()
-                    this.onload = null
-                }
+                const img = textures[pack][texture]
+                if (!img.complete) {
+                    img.onload = () => { stepLoadStyle(); img.onload = null }
+                } else stepLoadStyle()
             }
         break
     }
 }
 for (let song in music) {
-    music[song].oncanplay = function() {
+    const audio = music[song]
+    if (audio.readyState >= 2) {
         stepLoadStyle()
-        this.oncanplay = null
-        musicNow = this
+        musicNow = audio
+    } else {
+        audio.oncanplay = () => {
+            musicNow = audio
+            stepLoadStyle()
+            audio.oncanplay = null
+        }
     }
 }
 for (let pack in sfx) {
     for (let sound in sfx[pack]) {
-        sfx[pack][sound].oncanplay = function() {
+        const audio = sfx[pack][sound]
+        if (audio.readyState >= 2) {
             stepLoadStyle()
-            this.oncanplay = null
+        } else {
+            audio.oncanplay = () => {
+                stepLoadStyle()
+                audio.oncanplay = null
+            }
         }
     }
 }
@@ -538,10 +560,7 @@ const game = {
     play() {
         game.loop()
         musicNow.play()
-        musicNow.onend = function() {
-            musicNow = music.m2
-            this.play()
-        }
+        musicNow.onend = function() { console.log('Terminado') }
         uhd.querySelector('#game-state').innerText = ''
     },
     loop(timeLap) {

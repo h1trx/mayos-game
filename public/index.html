@@ -49,17 +49,13 @@
         <article id="message">
             <p id="msg-text"></p>
         </article>
+
+        <section id="controls">
+            <input type="range" min="-1" max="1" step=".05" id="move">
+        </section>
     </section>
     <script>
         let socket = undefined
-        if (navigator.onLine) {
-            socket = io()
-            socket.on('connect', () => alert("¡Bienvenido a Mayo's Game!"))
-            socket.on('connect_error', () => { 
-                socket.io.disconnect() 
-                alert("Falla al conectarse los servidores")
-            })
-        }
     </script>
 </body>
 </html>
