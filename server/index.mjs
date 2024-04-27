@@ -21,6 +21,7 @@ io.on('connection', socket => {
 app.get('/', (req, res) => {
     res.sendFile(process.cwd() + '/public/index.html')
 })
+app.get('/getPort', (req, res) => res.send(port))
 
 app.use(express.static('public'))
 
