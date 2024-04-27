@@ -8,6 +8,7 @@
     margin: 0;
     box-sizing: border-box;
     user-select: none;
+    color-scheme: dark;
 }
 
 body {
@@ -67,6 +68,15 @@ img {
     margin-top: -2px;
     position: absolute;
     right: 1px;
+}
+#uhd div input[type="number"] {
+    font-size: 1.6em;
+    width: fit-content;
+    padding: 4px 0 4px 10px;
+    border: 2px solid white;
+    outline: none;
+    border-radius: 10px;
+    text-align: center;
 }
 
 #loading {
@@ -159,7 +169,7 @@ img {
     background: #0005;
     width: 100px;
     height: 50px;
-    margin-left: 100px;
+    margin-left: 50px;
     margin-bottom: 20px;
     border: 2px solid black;
     border-radius: 50px;

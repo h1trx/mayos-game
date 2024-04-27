@@ -493,12 +493,30 @@ const load = newLoading(38, () => {
 
         if (navigator.onLine) {
             socket = io()
-            socket.on('connect', () => write("¡Bienvenido a Mayo's Game!"))
+            socket.on('connect', () => {
+                write("¡Bienvenido a Mayo's Game!")
+            })
             socket.on('connect_error', () => { 
                 socket.io.disconnect() 
                 write("Falla al conectarse los servidores")
             })
-        } else write("Estás offline")
+            socket.on('player-online', playerOn => {
+                const isInGame = onlinePlayers.find(player => player.socketId === playerOn.socketId)
+                playerOn.sprite.img = textures[`player${playerOn.playerNumber}`][playerOn.sprite.name]
+                
+                if (isInGame) {
+                    const index = onlinePlayers.indexOf(isInGame)
+                    onlinePlayers[index] = playerOn
+                } else {
+                    onlinePlayers.push(playerOn)
+                }
+            })
+            socket.on('player-disconnect', id => {
+                onlinePlayers = onlinePlayers.filter(player => player.socketId != id)
+            })
+        } else {
+            write("Estás offline")
+        }
 
         game.play()
     }, 100)
@@ -622,24 +640,7 @@ const game = {
     }
 }
 
-if (socket) {
-    socket.on('player-online', playerOn => {
-        const isInGame = onlinePlayers.find(player => player.socketId === playerOn.socketId)
-        playerOn.sprite.img = textures[`player${playerOn.playerNumber}`][playerOn.sprite.name]
-        
-        if (isInGame) {
-            const index = onlinePlayers.indexOf(isInGame)
-            onlinePlayers[index] = playerOn
-        } else {
-            onlinePlayers.push(playerOn)
-        }
-    })
-    socket.on('player-disconnect', id => {
-        onlinePlayers = onlinePlayers.filter(player => player.socketId != id)
-    })
-}
-
-document.getElementById('c_input').oninput = function() { bgColor = this.value }
+document.getElementById('p_input').oninput = function() { createPlayer(this.value) }
 document.getElementById('g_input').oninput = function() { gravity = Number(this.value) }
 document.getElementById('j_input').oninput = function() { player.jump = Number(this.value) }
 document.getElementById('f_input').oninput = function() { player.friction = 1 - Number(this.value) }

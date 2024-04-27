@@ -204,8 +204,12 @@ moveControl.ontouchend = function() {
     keys['a'] = false
     keys['d'] = false
 }
+moveControl.onmouseup = function() {
+    this.value = 0
+    keys['a'] = false
+    keys['d'] = false
+}
 moveControl.oninput = function() {
-    console.log(this.value)
     if (this.value < -0.3) {
         keys['a'] = true
     } else if (this.value > 0.3) {
