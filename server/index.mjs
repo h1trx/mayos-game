@@ -24,7 +24,14 @@ app.get('/', (req, res) => {
 })
 app.get('/getPort', (req, res) => res.send(port))
 
-app.use(cors())
+const options = {
+    origin: (origin, callback) => {
+        if (!origin) callback(null, true)
+        else callback(new Error('No allowed'))
+    }
+}
+
+app.use(cors(options))
 app.use(express.static('public'))
 
 server.listen(port, () => console.log(`server running on port ${port}`))
